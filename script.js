@@ -1,7 +1,12 @@
 'use strict';
 
-import { randomAnimals, randomTransformationItem, buyRandomEquipment, randomBackground, startRandomQuest, equipRandomEquipment } from "./Modules/keyFunctions";
-import { randomElementFromArray, fetchAPI, equipItem, castSkill } from "./Modules/utils";
+import { randomAnimals } from "./Modules/randomAnimals";
+import { randomTransformationItem } from "./Modules/randomTransformationItem";
+import { buyRandomEquipment } from "./Modules/buyRandomEquipment";
+import { randomBackground } from "./Modules/randomBackground";
+import { equipRandomEquipment } from "./Modules/equipRandomEquipment";
+import { startRandomQuest } from "./Modules/startRandomQuest";
+import { fetchAPI } from "./Modules/utils";
 
 const headers = {
   'x-client':
