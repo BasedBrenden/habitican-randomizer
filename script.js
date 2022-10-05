@@ -1,19 +1,12 @@
 'use strict';
 
-import { randomAnimals } from "./Modules/randomAnimals";
-import { randomTransformationItem } from "./Modules/randomTransformationItem";
-import { buyRandomEquipment } from "./Modules/buyRandomEquipment";
-import { randomBackground } from "./Modules/randomBackground";
-import { equipRandomEquipment } from "./Modules/equipRandomEquipment";
-import { startRandomQuest } from "./Modules/startRandomQuest";
-import { fetchAPI } from "./Modules/utils";
-
-const headers = {
-  'x-client':
-    "c073342f-4a65-4a13-9ffd-9e7fa5410d6b - Ieahleen's Habitican Randomizer",
-};
-const get = { method: 'GET' };
-const post = { method: 'POST' };
+import { randomAnimals } from "./Modules/randomAnimals.js";
+import { randomTransformationItem } from "./Modules/randomTransformationItem.js";
+import { buyRandomEquipment } from "./Modules/buyRandomEquipment.js";
+import { randomBackground } from "./Modules/randomBackground.js";
+import { equipRandomEquipment } from "./Modules/equipRandomEquipment.js";
+import { startRandomQuest } from "./Modules/startRandomQuest.js";
+import { fetchAPI, headers, get } from "./Modules/utils.js";
 
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -21,14 +14,51 @@ document.querySelector('form').addEventListener('submit', (e) => {
   build();
 });
 
+// listen for inputs info fields
+// add validation
+//check that the fields have the right number of characters inside (API and UUID are 36 characters long)
+
+// it has only valid characters, so 0-9, a-f, and dash - — uppercase or lowercase
+// Only allow to press the button if both are satisfied
+
+document.querySelector('form').addEventListener('input', (e) => {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const api = document.getElementById('api-key').value;
+  const uuid = document.getElementById('UUID').value;
+  const button = document.querySelector('input[type="submit"]');
+  if (
+    api.length === 36 &&
+    uuid.length === 36 &&
+    api.match(/^[0-9a-f-]+$/i) &&
+    uuid.match(/^[0-9a-f-]+$/i)
+  ) {
+    document.getElementById('error').innerText = '';
+    button.disabled = false;
+  } else {
+    // add red text above the button saying "Please enter a valid API key and UUID"
+    document.getElementById('error').innerText =
+      'Please enter a valid API key and UUID';
+
+    button.disabled = true;
+  }
+});
+
 async function build() {
   let UUID = document.getElementById('UUID').value;
   let apiKey = document.getElementById('api-key').value;
-  document.getElementById('main').innerHTML =
-    '<form class="wrapper"><p>Loading..</p></div>';
 
   [headers['x-api-user'], headers['x-api-key']] = [UUID, apiKey];
 
+  const user = await fetchAPI('https://habitica.com/api/v3/user', get);
+
+  if (user.success !== true) {
+    document.getElementById('error-message').innerHTML = 'Wrong UUID or API Key';
+    return;
+  }
+  
+  document.getElementById('main').innerHTML =
+    '<form class="wrapper"><p>Loading..</p></div>';
   const {
     data: {
       items: {
@@ -41,8 +71,8 @@ async function build() {
       stats: { gp: goldOwned, class: userClass, lvl: userLevel },
       purchased: { background: backgroundsObj },
     },
-  } = await fetchAPI('https://habitica.com/api/v3/user', get);
-
+    } = user;
+  
   const {
     success: partyDataWasFound,
     error,

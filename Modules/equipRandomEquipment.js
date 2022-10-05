@@ -1,3 +1,5 @@
+import { randomElementFromArray, equipItem } from "./utils.js";
+
 export const equipRandomEquipment = (gearOwned, allGear) =>{
     let html = '<h2>Random Costume or Battle Gear</h2>';
     html += "<p>Don't know what to wear? Let the RNG choose for you!</p>";

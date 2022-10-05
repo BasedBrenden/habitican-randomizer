@@ -1,3 +1,5 @@
+import { randomElementFromArray, fetchAPI, post } from "./utils.js";
+
 export const buyRandomEquipment = (goldOwned, availableEquipmentArr) =>{
     let html =
       '<h2>Buy Random Equipment from the Market!</h2><p>Do you have too much stuff to buy, after maybe emptying your inventory ';

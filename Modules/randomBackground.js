@@ -1,3 +1,5 @@
+import { randomElementFromArray, fetchAPI, post } from "./utils.js";
+
 export const randomBackground = async (backgrounds) => {
     let html =
       "<h2>Equip a Random Background</h2><p>Don't know what to wear? Let the Random Numger Generator choose your background!</p>";

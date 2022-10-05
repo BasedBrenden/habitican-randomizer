@@ -1,3 +1,5 @@
+import { randomElementFromArray } from "./utils.js";
+
 export const randomTransformationItem = (specialObj, partyMembersArr, repeat = false) =>{
     const el = document.querySelector('#transf-item-id');
     let div;

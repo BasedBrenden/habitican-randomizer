@@ -1,3 +1,5 @@
+import { randomElementFromArray, equipItem } from "./utils.js";
+
 export const randomAnimals = (mountsObj, petsObj) =>{
     let html = '';
     let mounts = Object.keys(mountsObj).filter((m) => mountsObj[m]);
